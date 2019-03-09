@@ -26,10 +26,13 @@ class _DeckState extends State<Deck> {
     );
   }
 
-  List<Widget> _getCards(int count){
+  List<Widget> _getCards(int count) {
     final cards = List<Widget>();
-    for(var i = 0; i < count; i++){
-      cards.add(AgileCard.asBlank());
+    for (var i = 0; i < count; i++) {
+      var container = Center(
+        child: AgileCard.asNumber(i)
+      );
+      cards.add(container);
     }
     return cards;
   }

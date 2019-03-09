@@ -25,10 +25,10 @@ class _DeckState extends State<Deck> {
   }
 
   List<Widget> _getCards(int count){
-    final _cards = List<Widget>();
+    final cards = List<Widget>();
     for(var i = 0; i < count; i++){
-      _cards.add(AgileCard.asBlank());
+      cards.add(AgileCard.asBlank());
     }
-    return _cards;
+    return cards;
   }
 }

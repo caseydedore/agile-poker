@@ -16,9 +16,11 @@ class _DeckState extends State<Deck> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: ListView(
-          scrollDirection: Axis.horizontal,
-          children: _getCards(100),
+        child: Scrollbar(
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: _getCards(20),
+          )
         )
       ),
     );

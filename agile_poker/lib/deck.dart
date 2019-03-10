@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'agile_card.dart';
+import 'card_view.dart';
 
 class Deck extends StatefulWidget {
   Deck({Key key, this.title}) : super(key: key);
@@ -29,10 +30,18 @@ class _DeckState extends State<Deck> {
   List<Widget> _getCards(int count) {
     final cards = List<Widget>();
     for (var i = 0; i < count; i++) {
+      var card = AgileCard.asNumber(i);
       var container = Center(
-        child: AgileCard.asNumber(i)
+          child: card
       );
-      cards.add(container);
+      var cardGesture = GestureDetector(
+        child: container,
+        onTap: () {
+          final cardViewRoute = MaterialPageRoute(builder: (context) => CardView(card));
+          Navigator.push(context, cardViewRoute);
+        },
+      );
+      cards.add(cardGesture);
     }
     return cards;
   }

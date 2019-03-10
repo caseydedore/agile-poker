@@ -5,7 +5,7 @@ class AgileCard extends StatelessWidget {
 
   AgileCard.asNumber(this._number);
 
-  factory AgileCard.asBlank() {
+  factory AgileCard.asBlank(Function onTap) {
     return AgileCard.asNumber(null);
   }
 
@@ -14,7 +14,7 @@ class AgileCard extends StatelessWidget {
     final width = 300.0;
     final height = 450.0;
     final margin = EdgeInsets.all(20.0);
-    return new Container(
+    final card = Container(
       width: width,
       height: height,
       child: _getCardText(),
@@ -25,6 +25,11 @@ class AgileCard extends StatelessWidget {
         color: Colors.grey[100],
       ),
     );
+    final materialCard = Material(
+      child: card,
+      color: Colors.transparent,
+    );
+    return materialCard;
   }
 
   Widget _getCardText() {

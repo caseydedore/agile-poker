@@ -1,11 +1,11 @@
 
 import 'package:flutter/material.dart';
-import 'agile_card.dart';
+import 'agile_card_view.dart';
 
-class CardView extends StatelessWidget {
-  final AgileCard _card;
+class FocusView extends StatelessWidget {
+  final AgileCardView _card;
 
-  CardView(this._card);
+  FocusView(this._card);
 
   @override
   Widget build(BuildContext context) {

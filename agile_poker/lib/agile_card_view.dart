@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:agile_poker/data/model/agile_card.dart';
 
-class AgileCard extends StatelessWidget {
-  final int _number;
+class AgileCardView extends StatelessWidget {
+  final AgileCard _card;
 
-  AgileCard.asNumber(this._number);
+  AgileCardView(this._card);
 
-  factory AgileCard.asBlank(Function onTap) {
-    return AgileCard.asNumber(null);
+  factory AgileCardView.as(AgileCard card) {
+    return AgileCardView(card);
+  }
+
+  factory AgileCardView.asNumber(int number) {
+    final card = AgileCard(0, number);
+    return  AgileCardView(card);
+  }
+
+  factory AgileCardView.asBlank() {
+    return AgileCardView.asNumber(null);
   }
 
   @override
@@ -33,7 +43,7 @@ class AgileCard extends StatelessWidget {
   }
 
   Widget _getCardText() {
-    final text = Text('${_number ?? ''}',
+    final text = Text('${_card.number ?? ''}',
       textAlign: TextAlign.center,
       overflow: TextOverflow.fade,
       style: TextStyle(

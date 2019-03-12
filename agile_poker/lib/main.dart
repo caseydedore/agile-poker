@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'deck.dart';
+import 'deck_view.dart';
 
 void main() => runApp(MyApp());
 

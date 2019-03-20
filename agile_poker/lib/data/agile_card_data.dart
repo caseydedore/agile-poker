@@ -23,6 +23,11 @@ class AgileCardData {
     return await db.rawInsert('INSERT into $_table ($_number) values (?)', [card.number]);
   }
 
+  Future updateAgileCard (AgileCard card) async {
+    final db = await _dataAccess.database;
+    return await db.rawUpdate('UPDATE $_table set $_number = ? where $_id == ?', [card.number, card.id]);
+  }
+
   Future removeAgileCard (AgileCard card) async {
     final db = await _dataAccess.database;
     return await db.rawDelete('DELETE from $_table WHERE $_id = ?', [0]);
@@ -31,7 +36,8 @@ class AgileCardData {
   Future _createTestDataIfEmpty () async {
     final db = await _dataAccess.database;
     final result =
-      await db.rawQuery('SELECT COUNT(*) FROM sqlite_master WHERE type="table" AND name="$_table"');
+      await
+        db.rawQuery('SELECT COUNT(*) FROM sqlite_master WHERE type="table" AND name="$_table"');
     final doesTestDataExist = Sqflite.firstIntValue(result) > 0;
     if (!doesTestDataExist) {
       await _createTable();
@@ -41,7 +47,8 @@ class AgileCardData {
 
   Future _createTable () async {
     final db = await _dataAccess.database;
-    return await db.execute('CREATE TABLE $_table ($_id INTEGER PRIMARY KEY, $_number INT)');
+    return await
+      db.execute('CREATE TABLE $_table ($_id INTEGER PRIMARY KEY, $_number INT)');
   }
 
   Future _createTestData () async {
@@ -54,7 +61,6 @@ class AgileCardData {
       AgileCard(0, 16),
       AgileCard(0, 32),
       AgileCard(0, 64),
-      AgileCard(0, 128)
     ];
     final data = AgileCardData();
     final pendingAdditions = cards.map((item) async => data.addAgileCard(item));

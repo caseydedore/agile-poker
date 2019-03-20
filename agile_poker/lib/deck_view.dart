@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'agile_card_view.dart';
 import 'focus_view.dart';
 import 'package:agile_poker/data/agile_card_data.dart';
+import 'package:agile_poker/agile_card_edit_view.dart';
 
 class Deck extends StatefulWidget {
   Deck({Key key, this.title}) : super(key: key);
@@ -15,45 +16,48 @@ class _DeckState extends State<Deck> {
 
   @override
   void initState() {
+    _updateData();
+    super.initState();
+  }
+
+  void _updateData() {
     _getCards().then((widgets) {
       setState(() {
         _cards = widgets;
       });
     });
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Scrollbar(
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: _cards ?? [],
-          )
-        )
-      ),
-    );
+    return Center(child: Scrollbar(
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: _cards ?? [],
+      )
+    ));
   }
 
   Future<List<Widget>> _getCards() async {
     final data = AgileCardData();
     final cards = await data.getAgileCards();
     final cardWidgets = cards.map((card) {
-      var view = AgileCardView.as(card);
-      var container = Center(
+      final view = AgileCardView.as(card);
+      final container = Center(
           child: view
       );
-      var gesture = GestureDetector(
+      final editView = AgileCardEditView(card, _updateData);
+      final gesture = GestureDetector(
         child: container,
         onTap: () {
           final cardViewRoute = MaterialPageRoute(
               builder: (context) => FocusView(view));
           Navigator.push(context, cardViewRoute);
+        },
+        onDoubleTap: () {
+          final cardEditRoute = MaterialPageRoute(
+            builder: (context) => editView);
+          Navigator.push(context, cardEditRoute);
         },
       );
       return gesture;

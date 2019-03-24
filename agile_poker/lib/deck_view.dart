@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'agile_card_view.dart';
 import 'focus_view.dart';
 import 'package:agile_poker/data/agile_card_data.dart';
+import 'package:agile_poker/data/model/agile_card.dart';
 import 'package:agile_poker/agile_card_edit_view.dart';
 
 class Deck extends StatefulWidget {
@@ -13,6 +14,7 @@ class Deck extends StatefulWidget {
 
 class _DeckState extends State<Deck> {
   List<Widget> _cards;
+  final _data = AgileCardData();
 
   @override
   void initState() {
@@ -39,29 +41,52 @@ class _DeckState extends State<Deck> {
   }
 
   Future<List<Widget>> _getCards() async {
-    final data = AgileCardData();
-    final cards = await data.getAgileCards();
+    final newCardPlaceholder = AgileCard(0, null);
+    final cards = [newCardPlaceholder].toList() + (await _data.getAgileCards());
     final cardWidgets = cards.map((card) {
-      final view = AgileCardView.as(card);
-      final container = Center(
-          child: view
-      );
-      final editView = AgileCardEditView(card, _updateData);
-      final gesture = GestureDetector(
-        child: container,
-        onTap: () {
-          final cardViewRoute = MaterialPageRoute(
-              builder: (context) => FocusView(view));
-          Navigator.push(context, cardViewRoute);
-        },
-        onDoubleTap: () {
-          final cardEditRoute = MaterialPageRoute(
-            builder: (context) => editView);
-          Navigator.push(context, cardEditRoute);
-        },
-      );
-      return gesture;
+      final cardIsNew = (card == newCardPlaceholder);
+      final cardWidget =
+        (cardIsNew == false)
+            ? _getViewForExistingCard(card)
+            : _getViewForNewCard();
+      return cardWidget;
     }).toList();
     return cardWidgets;
+  }
+
+  Widget _getViewForExistingCard (AgileCard card) {
+    final view = AgileCardView.as(card);
+    final container = Center(
+        child: view
+    );
+    final editView = AgileCardEditView(card, _updateData);
+    final gesture = GestureDetector(
+      child: container,
+      onTap: () {
+        final cardViewRoute = MaterialPageRoute(
+            builder: (context) => FocusView(view));
+        Navigator.push(context, cardViewRoute);
+      },
+      onDoubleTap: () {
+        final cardEditRoute = MaterialPageRoute(builder: (context) => editView);
+        Navigator.push(context, cardEditRoute);
+      },
+    );
+    return gesture;
+  }
+
+  Widget _getViewForNewCard () {
+    final view = AgileCardView.asBlank();
+    final container = Center(
+        child: view
+    );
+    final gesture = GestureDetector(
+      child: container,
+      onDoubleTap: () async {
+        await _data.addAgileCard(AgileCard(0, 0));
+        _updateData();
+      },
+    );
+    return gesture;
   }
 }

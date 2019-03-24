@@ -32,6 +32,18 @@ class _AgileCardEditViewState extends State<AgileCardEditView> {
               min: 0,
               max: 99
           ),
+        ),
+        ConstrainedBox(
+          child: RaisedButton(
+            child: const Text('Delete'),
+            onPressed: () async {
+              await _data.removeAgileCard(_card);
+              await _onEditComplete();
+              Navigator.pop(context);
+            },
+            color: Colors.redAccent,
+          ),
+          constraints: const BoxConstraints(minWidth: double.infinity),
         )
       ],
     );

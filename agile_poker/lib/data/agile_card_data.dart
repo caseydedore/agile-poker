@@ -30,7 +30,7 @@ class AgileCardData {
 
   Future removeAgileCard (AgileCard card) async {
     final db = await _dataAccess.database;
-    return await db.rawDelete('DELETE from $_table WHERE $_id = ?', [0]);
+    return await db.rawDelete('DELETE from $_table WHERE $_id = ?', [card.id]);
   }
 
   Future _createTestDataIfEmpty () async {

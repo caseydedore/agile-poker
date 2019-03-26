@@ -43,7 +43,7 @@ class AgileCardView extends StatelessWidget {
   }
 
   Widget _getCardText() {
-    final text = Text('${_card.number ?? ''}',
+    final text = Text('${_card.symbol ?? ''}',
       textAlign: TextAlign.center,
       overflow: TextOverflow.fade,
       style: TextStyle(

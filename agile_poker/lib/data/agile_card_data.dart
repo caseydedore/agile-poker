@@ -5,7 +5,7 @@ import 'package:sqflite/sqflite.dart';
 class AgileCardData {
   static const _table = 'agile_card';
   static const _id = 'id';
-  static const _number = 'number';
+  static const _symbol = 'symbol';
   final _dataAccess = DataAccess();
 
   Future<List<AgileCard>> getAgileCards () async {
@@ -13,19 +13,19 @@ class AgileCardData {
     await _createTestDataIfEmpty();
     final result = await db.rawQuery('SELECT * from $_table');
     final cards = result.map((item) {
-      return AgileCard(item[_id], item[_number]);
+      return AgileCard(item[_id], item[_symbol]);
     }).toList();
     return cards;
   }
 
   Future addAgileCard (AgileCard card) async {
     final db = await _dataAccess.database;
-    return await db.rawInsert('INSERT into $_table ($_number) values (?)', [card.number]);
+    return await db.rawInsert('INSERT into $_table ($_symbol) values (?)', [card.number]);
   }
 
   Future updateAgileCard (AgileCard card) async {
     final db = await _dataAccess.database;
-    return await db.rawUpdate('UPDATE $_table set $_number = ? where $_id == ?', [card.number, card.id]);
+    return await db.rawUpdate('UPDATE $_table set $_symbol = ? where $_id == ?', [card.number, card.id]);
   }
 
   Future removeAgileCard (AgileCard card) async {
@@ -48,7 +48,7 @@ class AgileCardData {
   Future _createTable () async {
     final db = await _dataAccess.database;
     return await
-      db.execute('CREATE TABLE $_table ($_id INTEGER PRIMARY KEY, $_number INT)');
+      db.execute('CREATE TABLE $_table ($_id INTEGER PRIMARY KEY, $_symbol INT)');
   }
 
   Future _createTestData () async {

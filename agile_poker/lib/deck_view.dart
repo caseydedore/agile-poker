@@ -41,14 +41,14 @@ class _DeckState extends State<Deck> {
   }
 
   Future<List<Widget>> _getCards() async {
-    final newCardPlaceholder = AgileCard(0, null);
+    final newCardPlaceholder = AgileCard.asNewCardPlaceholder();
     final cards = [newCardPlaceholder].toList() + (await _data.getAgileCards());
     final cardWidgets = cards.map((card) {
       final cardIsNew = (card == newCardPlaceholder);
       final cardWidget =
         (cardIsNew == false)
             ? _getViewForExistingCard(card)
-            : _getViewForNewCard();
+            : _getViewForNewCard(card);
       return cardWidget;
     }).toList();
     return cardWidgets;
@@ -75,8 +75,8 @@ class _DeckState extends State<Deck> {
     return gesture;
   }
 
-  Widget _getViewForNewCard () {
-    final view = AgileCardView.asBlank();
+  Widget _getViewForNewCard (AgileCard placeholder) {
+    final view = AgileCardView.as(placeholder);
     final container = Center(
         child: view
     );

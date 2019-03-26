@@ -30,7 +30,7 @@ class _AgileCardEditViewState extends State<AgileCardEditView> {
               value: _card.number.roundToDouble(),
               onChanged: _onValueChange,
               min: 0,
-              max: 99
+              max: 101
           ),
         ),
         ConstrainedBox(

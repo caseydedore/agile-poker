@@ -14,6 +14,7 @@ class Deck extends StatefulWidget {
 
 class _DeckState extends State<Deck> {
   List<Widget> _cards;
+  AgileCard _focus;
   final _data = AgileCardData();
 
   @override
@@ -26,18 +27,39 @@ class _DeckState extends State<Deck> {
     _getCards().then((widgets) {
       setState(() {
         _cards = widgets;
+        _focus = null;
       });
+    });
+  }
+
+  void _setFocus(AgileCard card) {
+    setState(() {
+      _focus = card;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Scrollbar(
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        children: _cards ?? [],
-      )
-    ));
+    final card = Center(
+      child: _focus != null ? AgileCardView.as(_focus) : AgileCardView.asBlank(),
+    );
+    final cardList = Scrollbar(
+        child: ListView(
+          scrollDirection: Axis.horizontal,
+          children: _cards ?? [],
+        )
+    );
+    return Column(
+      children: <Widget>[
+        Expanded(
+          child: card
+        ),
+        Container(
+          child: cardList,
+          height: 100,
+        )
+      ]
+    );
   }
 
   Future<List<Widget>> _getCards() async {
@@ -63,9 +85,7 @@ class _DeckState extends State<Deck> {
     final gesture = GestureDetector(
       child: container,
       onTap: () {
-        final cardViewRoute = MaterialPageRoute(
-            builder: (context) => FocusView(view));
-        Navigator.push(context, cardViewRoute);
+        _setFocus(card);
       },
       onDoubleTap: () {
         final cardEditRoute = MaterialPageRoute(builder: (context) => editView);

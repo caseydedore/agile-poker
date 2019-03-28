@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:agile_poker/data/model/agile_card.dart';
 
 class AgileCardView extends StatelessWidget {
@@ -21,39 +22,41 @@ class AgileCardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = 300.0;
-    final height = 450.0;
-    final margin = EdgeInsets.all(20.0);
     final card = Container(
-      width: width,
-      height: height,
       child: _getCardText(),
-      margin: margin,
       decoration: BoxDecoration(
         border: Border.all(width:3, color: Colors.black26),
         borderRadius: BorderRadius.circular(4),
         color: Colors.grey[100],
       ),
     );
-    final materialCard = Material(
+    final cardSize = AspectRatio(
       child: card,
+      aspectRatio: 0.7,
+    );
+    final materialCard = Material(
+      child: cardSize,
       color: Colors.transparent,
     );
     return materialCard;
   }
 
   Widget _getCardText() {
-    final text = Text('${_card.symbol ?? ''}',
+    final text = AutoSizeText('${_card.symbol ?? ''}',
       textAlign: TextAlign.center,
       overflow: TextOverflow.fade,
+      minFontSize: 15,
       style: TextStyle(
         fontWeight: FontWeight.bold,
-        fontSize: 180,
-        color: Colors.black87
+        color: Colors.black87,
+        fontSize: 250
       ),
     );
     final textContainer = Center(
-      child: text,
+      child: Container(
+        child: text,
+        margin: EdgeInsets.all(4),
+      ),
     );
     return textContainer;
   }

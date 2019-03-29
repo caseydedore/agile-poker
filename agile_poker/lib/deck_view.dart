@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'agile_card_view.dart';
-import 'focus_view.dart';
 import 'package:agile_poker/data/agile_card_data.dart';
 import 'package:agile_poker/data/model/agile_card.dart';
 import 'package:agile_poker/agile_card_edit_view.dart';
+import 'package:agile_poker/new_agile_card_button.dart';
 
 class Deck extends StatefulWidget {
   Deck({Key key, this.title}) : super(key: key);
@@ -40,46 +40,47 @@ class _DeckState extends State<Deck> {
 
   @override
   Widget build(BuildContext context) {
-    final card = Center(
+    final card = Container(
       child: _focus != null ? AgileCardView.as(_focus) : AgileCardView.asBlank(),
+      margin: EdgeInsets.all(16),
     );
     final cardList = Scrollbar(
-        child: ListView(
-          scrollDirection: Axis.horizontal,
-          children: _cards ?? [],
-        )
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: _cards ?? [],
+        padding: EdgeInsets.symmetric(horizontal: 4),
+      ),
     );
-    return Column(
+    final deck = Column(
       children: <Widget>[
         Expanded(
           child: card
         ),
         Container(
           child: cardList,
-          height: 100,
+          height: 120,
         )
       ]
     );
+    return Material(
+      child: deck,
+      color: Colors.white,
+    )
   }
 
   Future<List<Widget>> _getCards() async {
-    final newCardPlaceholder = AgileCard.asNewCardPlaceholder();
-    final cards = [newCardPlaceholder].toList() + (await _data.getAgileCards());
-    final cardWidgets = cards.map((card) {
-      final cardIsNew = (card == newCardPlaceholder);
-      final cardWidget =
-        (cardIsNew == false)
-            ? _getViewForExistingCard(card)
-            : _getViewForNewCard(card);
-      return cardWidget;
-    }).toList();
+    final cards = await _data.getAgileCards();
+    final cardWidgets =
+      cards.map((card) => _getViewForExistingCard(card)).toList();
+    cardWidgets.add(_getViewForNewCard());
     return cardWidgets;
   }
 
   Widget _getViewForExistingCard (AgileCard card) {
     final view = AgileCardView.as(card);
-    final container = Center(
-        child: view
+    final container = Container(
+      child: view,
+      margin: EdgeInsets.all(2),
     );
     final editView = AgileCardEditView(card, _updateData);
     final gesture = GestureDetector(
@@ -95,10 +96,10 @@ class _DeckState extends State<Deck> {
     return gesture;
   }
 
-  Widget _getViewForNewCard (AgileCard placeholder) {
-    final view = AgileCardView.as(placeholder);
-    final container = Center(
-        child: view
+  Widget _getViewForNewCard () {
+    final container = Container(
+        child: NewAgileCardButton(),
+      margin: EdgeInsets.all(2),
     );
     final gesture = GestureDetector(
       child: container,

@@ -45,17 +45,17 @@ class AgileCardView extends StatelessWidget {
     final text = AutoSizeText('${_card.symbol ?? ''}',
       textAlign: TextAlign.center,
       overflow: TextOverflow.fade,
-      minFontSize: 15,
+      minFontSize: 10,
       style: TextStyle(
         fontWeight: FontWeight.bold,
         color: Colors.black87,
-        fontSize: 250
+        fontSize: 260
       ),
     );
     final textContainer = Center(
       child: Container(
         child: text,
-        margin: EdgeInsets.all(4),
+        margin: EdgeInsets.all(6),
       ),
     );
     return textContainer;

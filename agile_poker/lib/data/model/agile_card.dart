@@ -17,7 +17,7 @@ class AgileCard {
   static const Map<int, String> _remappedSymbols = const {
     null: '',
     -1: '+',
-    100: 'inf',
+    100: '∞',
     101: '?'
   };
 }

@@ -65,7 +65,7 @@ class _DeckState extends State<Deck> {
     return Material(
       child: deck,
       color: Colors.white,
-    )
+    );
   }
 
   Future<List<Widget>> _getCards() async {
@@ -88,7 +88,7 @@ class _DeckState extends State<Deck> {
       onTap: () {
         _setFocus(card);
       },
-      onDoubleTap: () {
+      onLongPress: () {
         final cardEditRoute = MaterialPageRoute(builder: (context) => editView);
         Navigator.push(context, cardEditRoute);
       },
@@ -103,7 +103,7 @@ class _DeckState extends State<Deck> {
     );
     final gesture = GestureDetector(
       child: container,
-      onDoubleTap: () async {
+      onLongPress: () async {
         await _data.addAgileCard(AgileCard(0, 0));
         _updateData();
       },

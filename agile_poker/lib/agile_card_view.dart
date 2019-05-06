@@ -35,7 +35,9 @@ class AgileCardView extends StatelessWidget {
       aspectRatio: 0.7,
     );
     final materialCard = Material(
-      child: cardSize,
+      child: Center(
+        child: cardSize
+      ),
       color: Colors.transparent,
     );
     return materialCard;

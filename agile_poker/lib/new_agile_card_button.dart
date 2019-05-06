@@ -18,11 +18,12 @@ class NewAgileCardButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(4),
         color: Colors.greenAccent,
       ),
-      height: 60,
-      width: 60,
     );
     final center = Center(
-      child: view,
+      child: AspectRatio(
+          child: view,
+          aspectRatio: 0.7
+      ),
     );
     return Material(child: center, color: Colors.transparent);
   }

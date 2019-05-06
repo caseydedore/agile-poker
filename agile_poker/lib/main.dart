@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'deck_view.dart';
+import 'deck-view.dart';
 
 void main() => runApp(MyApp());
 
@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      home: Deck(title: 'Agile Deck'),
+      home: DeckView(title: 'Agile Deck'),
     );
   }
 }

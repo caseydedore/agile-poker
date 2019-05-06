@@ -33,18 +33,6 @@ class _AgileCardEditViewState extends State<AgileCardEditView> {
               max: 101
           ),
         ),
-        ConstrainedBox(
-          child: RaisedButton(
-            child: const Text('Delete'),
-            onPressed: () async {
-              await _data.removeAgileCard(_card);
-              await _onEditComplete();
-              Navigator.pop(context);
-            },
-            color: Colors.redAccent,
-          ),
-          constraints: const BoxConstraints(minWidth: double.infinity),
-        )
       ],
     );
     final exitHandler = WillPopScope(

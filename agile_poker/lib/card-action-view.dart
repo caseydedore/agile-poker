@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'value-slider-view.dart';
 
 class CardActionView extends StatefulWidget {
   final Function _onEditRequested;
@@ -182,7 +183,33 @@ class _CardActionViewState extends State<CardActionView> {
         child: Center(
           child: SizedBox(
             child: RaisedButton(
-              onPressed: onEditRequested,
+              onPressed: () async {
+                await showDialog(
+                  context: context,
+                  builder: AlertDialog(
+                    title: Text('Adjust Value'),
+                    actions: <Widget>[
+                      ValueSliderView(
+                        int.parse(_current).toDouble(),
+                        (value) {}
+                      ),
+                      FlatButton(
+                        child: Text('Cancel'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      FlatButton(
+                        child: Text('Ok'),
+                        onPressed: () {
+                          //onEditRequested();
+                          Navigator.of(context).pop();
+                        },
+                      )
+                    ],
+                  ).build
+                );
+              },
               child: Icon(Icons.edit, color: Colors.white,),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(100),

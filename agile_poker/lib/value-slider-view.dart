@@ -1,23 +1,36 @@
 import 'package:flutter/material.dart';
 
-class ValueSliderView extends StatelessWidget {
-  final double _initialValue;
-  final ValueSliderChange _onChanged;
+class ValueSliderView extends StatefulWidget {
+  ValueSliderView();
 
-  ValueSliderView(this._initialValue, this._onChanged);
+  @override
+  ValueSliderViewState createState() => ValueSliderViewState();
+}
+
+class ValueSliderViewState extends State<ValueSliderView> {
+  int value = 0;
+
+  ValueSliderViewState();
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Slider(
-        value: _initialValue,
-        onChanged: _onChanged,
-        max: 101,
-        min: 0,
-        divisions: 101,
-      )
+    return Column(
+      children: [
+        Text(value.toString()),
+        Slider(
+          value: value.roundToDouble(),
+          onChanged: (val) {
+            setState(() {
+              value = val.round();
+            });
+          },
+          max: 101,
+          min: 0,
+          divisions: 101,
+        )
+      ],
     );
   }
 }
 
-typedef void ValueSliderChange(double value);
+typedef void ValueSliderChange(int value);

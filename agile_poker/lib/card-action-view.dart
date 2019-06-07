@@ -188,11 +188,10 @@ class _CardActionViewState extends State<CardActionView> {
                   context: context,
                   builder: AlertDialog(
                     title: Text('Adjust Value'),
+                    content: SingleChildScrollView(
+                      child: ValueSliderView()
+                    ),
                     actions: <Widget>[
-                      ValueSliderView(
-                        int.parse(_current).toDouble(),
-                        (value) {}
-                      ),
                       FlatButton(
                         child: Text('Cancel'),
                         onPressed: () {
@@ -202,7 +201,7 @@ class _CardActionViewState extends State<CardActionView> {
                       FlatButton(
                         child: Text('Ok'),
                         onPressed: () {
-                          //onEditRequested();
+                          onEditRequested();
                           Navigator.of(context).pop();
                         },
                       )

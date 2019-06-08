@@ -35,6 +35,7 @@ class _CardActionViewState extends State<CardActionView> {
   var _current = '';
   var _previous = '';
   var _next = '';
+  int _currentEditValue;
   final _endStyle = TextStyle(
       fontSize: 30,
       fontWeight: FontWeight.bold
@@ -184,12 +185,16 @@ class _CardActionViewState extends State<CardActionView> {
           child: SizedBox(
             child: RaisedButton(
               onPressed: () async {
+                _currentEditValue = double.tryParse(_current)?.toInt() ?? 0;
                 await showDialog(
                   context: context,
                   builder: AlertDialog(
                     title: Text('Adjust Value'),
                     content: SingleChildScrollView(
-                      child: ValueSliderView()
+                      child: ValueSliderView(
+                        _currentEditValue,
+                        (val) { _currentEditValue = val; }
+                      )
                     ),
                     actions: <Widget>[
                       FlatButton(
@@ -201,7 +206,7 @@ class _CardActionViewState extends State<CardActionView> {
                       FlatButton(
                         child: Text('Ok'),
                         onPressed: () {
-                          onEditRequested();
+                          onEditRequested(_currentEditValue);
                           Navigator.of(context).pop();
                         },
                       )

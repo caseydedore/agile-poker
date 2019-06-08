@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'agile_card_view.dart';
 import 'card-action-view.dart';
-import 'agile_card_edit_view.dart';
 import 'new_agile_card_button.dart';
 import 'data/agile_card_data.dart';
 import 'data/model/agile_card.dart';
@@ -95,11 +94,11 @@ class _DeckViewState extends State<DeckView> {
     return gesture;
   }
 
-  void _editCard() {
+  void _editCard(int newValue) async {
     final card = _agileCards[_cardIndex];
-    final editView = AgileCardEditView(card, _updateData);
-    final cardEditRoute = MaterialPageRoute(builder: (context) => editView);
-    Navigator.push(context, cardEditRoute);
+    final updatedCard = AgileCard(card.id, newValue);
+    await _data.updateAgileCard(updatedCard);
+    _updateData();
   }
 
   void _deleteCard() async {

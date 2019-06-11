@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:agile_poker/data/model/agile_card.dart';
 
 class ValueSliderView extends StatefulWidget {
   final int _initialValue;
@@ -20,7 +21,7 @@ class ValueSliderViewState extends State<ValueSliderView> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(_value.toString()),
+        Text(AgileCard(0, _value).symbol),
         Slider(
           value: _value.roundToDouble(),
           onChanged: (val) {

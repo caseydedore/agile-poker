@@ -3,19 +3,24 @@ import 'package:agile_poker/data/model/agile_card.dart';
 
 class ValueSliderView extends StatefulWidget {
   final int _initialValue;
+  final int _minValue;
+  final int _maxValue;
   final ValueSliderChange _onChanged;
 
-  ValueSliderView(this._initialValue, this._onChanged);
+  ValueSliderView(this._initialValue, this._minValue, this._maxValue, this._onChanged);
 
   @override
-  ValueSliderViewState createState() => ValueSliderViewState(_initialValue, _onChanged);
+  ValueSliderViewState createState() =>
+      ValueSliderViewState(_initialValue, _minValue, _maxValue, _onChanged);
 }
 
 class ValueSliderViewState extends State<ValueSliderView> {
   int _value = 0;
+  final int _min;
+  final int _max;
   final ValueSliderChange _onChanged;
 
-  ValueSliderViewState(this._value, this._onChanged);
+  ValueSliderViewState(this._value, this._min, this._max, this._onChanged);
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +34,8 @@ class ValueSliderViewState extends State<ValueSliderView> {
             _onChanged(_value);
             setState(() { });
           },
-          max: 101,
-          min: 0,
-          divisions: 101,
+          max: _max.toDouble(),
+          min: _min.toDouble(),
         )
       ],
     );

@@ -18,9 +18,10 @@ class AgileCardData {
     return cards;
   }
 
-  Future addAgileCard (AgileCard card) async {
+  Future<AgileCard> addAgileCard (AgileCard card) async {
     final db = await _dataAccess.database;
-    return await db.rawInsert('INSERT into $_table ($_symbol) values (?)', [card.number]);
+    final id = await db.rawInsert('INSERT into $_table ($_symbol) values (?)', [card.number]);
+    return new AgileCard(id, card.number);
   }
 
   Future updateAgileCard (AgileCard card) async {

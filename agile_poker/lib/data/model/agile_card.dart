@@ -6,8 +6,8 @@ class AgileCard {
 
   AgileCard(this.id, this.number);
 
-  factory AgileCard.asNewCardPlaceholder() {
-    return AgileCard(0, -1);
+  factory AgileCard.asNew() {
+    return AgileCard(0, 0);
   }
 
   factory AgileCard.fromString(String id, String symbol) {

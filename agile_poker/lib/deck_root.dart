@@ -55,10 +55,22 @@ class DeckRootState extends State<DeckRoot> {
 
   Future loadCards() async {
     cards = await _data.getAgileCards();
+    currentCard = cards.first;
     cardsLoaded = true;
     setState(() {});
   }
+
+  sortCards(CardSortMode mode) {
+    if (mode == CardSortMode.asc) {
+      cards.sort((first, second) => first.number - second.number);
+    } else {
+      cards.sort((first, second) => second.number - first.number);
+    }
+    setState(() {});
+  }
 }
+
+enum CardSortMode { asc, desc }
 
 class _DeckRootStateManager extends InheritedWidget {
   final DeckRootState state;

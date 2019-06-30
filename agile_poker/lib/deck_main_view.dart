@@ -3,7 +3,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'deck_view.dart';
 import 'deck_root.dart';
 import 'dialog/card_edit_dialog_builder.dart';
-import 'dialog/card_delete_dialog_builder.dart';
 
 class DeckMainView extends StatelessWidget {
   @override
@@ -16,8 +15,9 @@ class DeckMainView extends StatelessWidget {
 
   AppBar _appBar(BuildContext context) => AppBar(
     actions: <Widget>[
-      _cardModificationMenu(context),
+      _cardSortMenu(context),
       _appTitle(),
+      _editCardButton(context),
       _newCardButton(context),
     ],
   );
@@ -33,25 +33,34 @@ class DeckMainView extends StatelessWidget {
       ),
     );
 
-  Widget _cardModificationMenu(BuildContext context) =>
-    PopupMenuButton<_EditOption>(
-      icon: Icon(Icons.edit),
-      tooltip: 'Edit',
+  Widget _cardSortMenu(BuildContext context) =>
+    PopupMenuButton<CardSortMode>(
+      icon: Icon(Icons.sort),
+      tooltip: 'Sort Deck',
       onSelected: (option) {
-        if (option == _EditOption.edit) _showEditDialog(context);
-        else _showDeleteDialog(context);
+        DeckRoot.of(context).sortCards(option);
       },
-      itemBuilder: (context) => <PopupMenuEntry<_EditOption>>[
+      itemBuilder: (context) => <PopupMenuEntry<CardSortMode>>[
         const PopupMenuItem(
-          value: _EditOption.edit,
-          child: Text('Edit Card'),
+          value: CardSortMode.asc,
+          child: Text('Ascending'),
         ),
         const PopupMenuItem(
-          value: _EditOption.delete,
-          child: Text('Delete Card')
+          value: CardSortMode.desc,
+          child: Text('Descending')
         ),
       ],
     );
+
+  Widget _editCardButton(BuildContext context) =>
+    IconButton(
+      icon: Icon(Icons.edit),
+      tooltip: 'Edit Card',
+      onPressed: () {
+        _showEditDialog(context);
+      },
+    );
+
 
   Widget _newCardButton(BuildContext context) =>
     IconButton(
@@ -70,13 +79,4 @@ class DeckMainView extends StatelessWidget {
         maxValue: 101,
     ).present(context);
   }
-
-  void _showDeleteDialog(BuildContext context) {
-    final deckInterface = DeckRoot.of(context);
-    CardDeleteDialogBuilder.create(
-        card: deckInterface.currentCard,
-    ).present(context);
-  }
 }
-
-enum _EditOption { edit, delete }

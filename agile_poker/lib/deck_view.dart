@@ -8,9 +8,10 @@ class DeckView extends StatelessWidget {
   Widget build(BuildContext context) {
     final deckState = DeckRoot.of(context);
     final cards = deckState.cards;
-    final views = cards.map((card) => _getViewForExistingCard(card)).toList();
     return Column(
-      children: [Expanded(child: _buildInteractiveDeck(cardViews: views))]
+      children: [
+        Expanded(child: _buildInteractiveDeck(deckState: deckState, cards: cards))
+      ]
     );
   }
 
@@ -25,7 +26,8 @@ class DeckView extends StatelessWidget {
     );
   }
 
-  Widget _buildInteractiveDeck({List<Widget> cardViews}) {
+  Widget _buildInteractiveDeck({DeckRootState deckState, List<AgileCard> cards}) {
+    final cardViews = cards.map((card) => _getViewForExistingCard(card)).toList();
     final cardList = PageView(
       scrollDirection: Axis.horizontal,
       children: cardViews,
@@ -50,7 +52,10 @@ class DeckView extends StatelessWidget {
               values: cardPositions
             );
             _scrollToPage(controller: cardList.controller, page: closestPage)
-              .then((result) => isScrollingToRest = false);
+              .then((result) {
+                isScrollingToRest = false;
+                deckState.currentCard = cards[closestPage];
+            });
           }
         },
       ),

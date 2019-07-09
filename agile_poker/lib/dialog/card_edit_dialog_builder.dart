@@ -33,7 +33,7 @@ class CardEditDialogBuilder {
           _value.number,
           _minValue,
           _maxValue,
-          (val) { _value = AgileCard(_value.id, val); }
+          (val) { _value = AgileCard(_value.id, val, ''); }
         )
       ),
       actions: <Widget>[

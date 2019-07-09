@@ -11,8 +11,8 @@ class AgileCardView extends StatelessWidget {
     return AgileCardView(card);
   }
 
-  factory AgileCardView.asNumber(int number) {
-    final card = AgileCard(0, number);
+  factory AgileCardView.asNumber(int number, {String image}) {
+    final card = AgileCard(0, number, image ?? '');
     return  AgileCardView(card);
   }
 
@@ -23,7 +23,7 @@ class AgileCardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final card = Container(
-      child: _getCardText(),
+      child: _cardCenterDisplay(),
       decoration: BoxDecoration(
         border: Border.all(width:3, color: Colors.black26),
         borderRadius: BorderRadius.circular(4),
@@ -43,23 +43,56 @@ class AgileCardView extends StatelessWidget {
     return materialCard;
   }
 
-  Widget _getCardText() {
-    final text = AutoSizeText('${_card.symbol ?? ''}',
+  Widget _cardText() {
+    final text = AutoSizeText('${_card.symbol}',
       textAlign: TextAlign.center,
       overflow: TextOverflow.fade,
-      minFontSize: 10,
+      minFontSize: 20,
       style: TextStyle(
         fontWeight: FontWeight.bold,
         color: Colors.black87,
-        fontSize: 260
+        fontSize: 220
       ),
     );
-    final textContainer = Center(
-      child: Container(
+    return Container(
+      child: Center(
         child: text,
-        margin: EdgeInsets.all(6),
+      ),
+      margin: EdgeInsets.all(40),
+    );
+  }
+
+  Widget _cardImage() {
+    return Container(
+      child: Container(
+        foregroundDecoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(1000),
+          border: Border.all(
+            width: 3,
+            color: Colors.black54,
+          ),
+          image: DecorationImage(
+            image: NetworkImage(_card.image ?? ''),
+            fit: BoxFit.cover,
+          )
+        ),
+      ),
+      padding: EdgeInsets.all(30),
+    );
+  }
+
+  Widget _cardCenterDisplay() {
+    final displays =
+      _card.image.isNotEmpty
+      ? [_cardImage(), _cardText()]
+      : [_cardText()];
+    return Center(
+      child: AspectRatio(
+        child: Stack(
+          children: displays,
+        ),
+        aspectRatio: 1.0,
       ),
     );
-    return textContainer;
   }
 }

@@ -2,12 +2,14 @@
 class AgileCard {
   final int id;
   final int number;
+  final String image;
+
   String get symbol => _numberToSymbol(number);
 
-  AgileCard(this.id, this.number);
+  AgileCard(this.id, this.number, this.image);
 
   factory AgileCard.asNew() {
-    return AgileCard(0, 0);
+    return AgileCard(0, 0, '');
   }
 
   factory AgileCard.fromString(String id, String symbol) {
@@ -18,7 +20,7 @@ class AgileCard {
         return;
       }
     });
-    return AgileCard(0, number);
+    return AgileCard(0, number, '');
   }
 
   String _numberToSymbol(int number) {

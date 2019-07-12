@@ -64,17 +64,20 @@ class AgileCardView extends StatelessWidget {
 
   Widget _cardImage() {
     return Container(
-      child: Container(
-        foregroundDecoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(1000),
-          border: Border.all(
-            width: 3,
-            color: Colors.black54,
+      child: Opacity(
+        opacity: 0.5,
+        child: Container(
+          foregroundDecoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(1000),
+            border: Border.all(
+              width: 3,
+              color: Colors.black87,
+            ),
+            image: DecorationImage(
+              image: NetworkImage(_card.image ?? ''),
+              fit: BoxFit.cover,
+            )
           ),
-          image: DecorationImage(
-            image: NetworkImage(_card.image ?? ''),
-            fit: BoxFit.cover,
-          )
         ),
       ),
       padding: EdgeInsets.all(30),

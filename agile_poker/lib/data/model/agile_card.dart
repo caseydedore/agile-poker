@@ -6,10 +6,10 @@ class AgileCard {
 
   String get symbol => _numberToSymbol(number);
 
-  AgileCard(this.id, this.number, this.image);
+  AgileCard._(this.id, this.number, this.image);
 
-  factory AgileCard.asNew() {
-    return AgileCard(0, 0, '');
+  factory AgileCard.asNew({int id, int number, String image}) {
+    return AgileCard._(id ?? 0, number ?? 0, image ?? '');
   }
 
   factory AgileCard.fromString(String id, String symbol) {
@@ -20,7 +20,7 @@ class AgileCard {
         return;
       }
     });
-    return AgileCard(0, number, '');
+    return AgileCard._(0, number, '');
   }
 
   String _numberToSymbol(int number) {
@@ -28,7 +28,6 @@ class AgileCard {
   }
 
   static const Map<int, String> _remappedSymbols = const {
-    null: '',
     -1: '+',
     100: '∞',
     101: '?'

@@ -26,7 +26,7 @@ class ValueSliderViewState extends State<ValueSliderView> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(AgileCard(0, _value, '').symbol),
+        Text(AgileCard.asNew(id: 0, number: _value).symbol),
         Slider(
           value: _value.roundToDouble(),
           onChanged: (val) {

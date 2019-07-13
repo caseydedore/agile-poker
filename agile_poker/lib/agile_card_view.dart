@@ -12,7 +12,7 @@ class AgileCardView extends StatelessWidget {
   }
 
   factory AgileCardView.asNumber(int number, {String image}) {
-    final card = AgileCard(0, number, image ?? '');
+    final card = AgileCard.asNew(id: 0, number: number, image: image);
     return  AgileCardView(card);
   }
 

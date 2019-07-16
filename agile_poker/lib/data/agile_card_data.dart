@@ -60,14 +60,14 @@ class AgileCardData {
 
   Future _createTestData () async {
     final cards = [
-      AgileCard.asNew(id: 0, number: 0, image: 'https://i0.kym-cdn.com/entries/icons/original/000/000/091/TrollFace.jpg'),
-      AgileCard.asNew(id: 0, number: 1, image: 'http://i0.kym-cdn.com/entries/icons/mobile/000/002/252/NoMeGusta.jpg'),
+      AgileCard.asNew(id: 0, number: 0),
+      AgileCard.asNew(id: 0, number: 1),
       AgileCard.asNew(id: 0, number: 2),
       AgileCard.asNew(id: 0, number: 4),
-      AgileCard.asNew(id: 0, number: 8, image: 'https://appstickers-cdn.appadvice.com/1126326196/817857734/8c9ac93facc4d5bc6cee7a0cc7b37013-2.png'),
+      AgileCard.asNew(id: 0, number: 8),
       AgileCard.asNew(id: 0, number: 16),
-      AgileCard.asNew(id: 0, number: 32, image: 'http://i0.kym-cdn.com/entries/icons/mobile/000/002/252/NoMeGusta.jpg'),
-      AgileCard.asNew(id: 0, number: 64, image: 'https://appstickers-cdn.appadvice.com/1126326196/817857734/8c9ac93facc4d5bc6cee7a0cc7b37013-2.png'),
+      AgileCard.asNew(id: 0, number: 32),
+      AgileCard.asNew(id: 0, number: 64),
     ];
     final data = AgileCardData();
     final pendingAdditions = cards.map((item) async => data.addAgileCard(item));

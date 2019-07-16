@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 import '../deck_root.dart';
 import '../data/model/agile_card.dart';
 import 'value_slider_view.dart';
 import 'card_delete_dialog_builder.dart';
+import 'package:agile_poker/service/image_storage.dart';
 
 class CardEditDialogBuilder {
-  AgileCard _value;
+  AgileCard _card;
   final int _maxValue;
   final int _minValue;
 
-  CardEditDialogBuilder(this._value, this._minValue, this._maxValue);
+  CardEditDialogBuilder._(this._card, this._minValue, this._maxValue);
 
   factory CardEditDialogBuilder.create({
     @required AgileCard card,
     @required int minValue,
     @required int maxValue
-  }) =>
-    CardEditDialogBuilder(card, minValue, maxValue);
+  }) => CardEditDialogBuilder._(card, minValue, maxValue);
   
   void present(BuildContext context) async {
     await showDialog(
@@ -28,13 +30,27 @@ class CardEditDialogBuilder {
   Widget _build(BuildContext context) {
     return AlertDialog(
       title: Text('Adjust Value'),
-      content: SingleChildScrollView(
-        child: ValueSliderView(
-          _value.number,
-          _minValue,
-          _maxValue,
-          (val) { _value = AgileCard.asNew(id: _value.id, number: val); }
-        )
+      content: Center(
+        child: Column(
+          children: <Widget>[
+            SingleChildScrollView(
+              child: ValueSliderView(
+                _card.number,
+                _minValue,
+                _maxValue,
+                (val) { _card = AgileCard.asNew(id: _card.id, number: val, image: _card.image); }
+              )
+            ),
+            Image.file(File(_card.image)),
+            Container(
+              child: FlatButton(
+                  onPressed: _addImageToCard,
+                  child: Text('Choose Image')
+              ),
+              padding: EdgeInsets.only(bottom: 20),
+            ),
+          ]
+        ),
       ),
       actions: <Widget>[
         FlatButton(
@@ -50,7 +66,7 @@ class CardEditDialogBuilder {
         FlatButton(
           child: Text('Ok'),
           onPressed: () async {
-            await DeckRoot.of(context).updateCard(_value);
+            await DeckRoot.of(context).updateCard(_card);
             Navigator.of(context).pop();
           },
         )
@@ -63,5 +79,11 @@ class CardEditDialogBuilder {
     CardDeleteDialogBuilder.create(
       card: deckInterface.currentCard,
     ).present(context);
+  }
+
+  void _addImageToCard() async {
+    final image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    final savedImage = await ImageStorage().saveImage(image);
+    _card = AgileCard.asNew(id: _card.id, number: _card.number, image: savedImage);
   }
 }

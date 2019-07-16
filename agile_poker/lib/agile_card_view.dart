@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:agile_poker/data/model/agile_card.dart';
 
@@ -74,7 +75,7 @@ class AgileCardView extends StatelessWidget {
               color: Colors.black87,
             ),
             image: DecorationImage(
-              image: NetworkImage(_card.image ?? ''),
+              image: FileImage(File(_card.image)),
               fit: BoxFit.cover,
             )
           ),

@@ -3,7 +3,7 @@ import 'package:path_provider/path_provider.dart';
 
 class ImageStorage {
   Future<String> saveImage(File image) async {
-    if(image.path.isEmpty){
+    if (image.path.isEmpty) {
       return image.path;
     }
     final fileStorage = await getApplicationDocumentsDirectory();
@@ -16,6 +16,9 @@ class ImageStorage {
   }
 
   Future deleteImage(String path) async {
+    if (path.isEmpty) {
+      return Future.value();
+    }
     final file = File(path);
     return file.delete();
   }

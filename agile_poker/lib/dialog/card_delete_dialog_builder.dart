@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:agile_poker/deck_root.dart';
 import '../data/model/agile_card.dart';
+import '../service/image_storage.dart';
 
 class CardDeleteDialogBuilder {
   final AgileCard _card;
@@ -34,6 +35,7 @@ class CardDeleteDialogBuilder {
   }
 
   void _deleteCard(BuildContext context) async {
+    await ImageStorage().deleteImage(_card.image);
     await DeckRoot.of(context).removeCard(_card);
     Navigator.of(context).pop();
   }

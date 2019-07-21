@@ -14,4 +14,9 @@ class ImageStorage {
     await savedFile.writeAsBytes(image.readAsBytesSync());
     return appFilePath;
   }
+
+  Future deleteImage(String path) async {
+    final file = File(path);
+    return file.delete();
+  }
 }

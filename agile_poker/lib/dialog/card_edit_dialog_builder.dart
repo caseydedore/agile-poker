@@ -41,7 +41,7 @@ class CardEditDialogBuilder {
                 (val) { _card = AgileCard.asNew(id: _card.id, number: val, image: _card.image); }
               )
             ),
-            Image.file(File(_card.image)),
+            _imagePreview(),
             Container(
               child: FlatButton(
                   onPressed: _addImageToCard,
@@ -72,6 +72,14 @@ class CardEditDialogBuilder {
         )
       ],
     ).build(context);
+  }
+
+  Widget _imagePreview() {
+    return Container(
+      child: _card.image.isNotEmpty
+        ? Image.file(File(_card.image))
+        : null
+    );
   }
 
   void _showDeleteDialog(BuildContext context) {

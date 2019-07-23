@@ -61,7 +61,6 @@ class DeckMainView extends StatelessWidget {
       },
     );
 
-
   Widget _newCardButton(BuildContext context) =>
     IconButton(
       icon: Icon(Icons.add_box),

@@ -27,7 +27,28 @@ class CardEditDialogBuilder {
     );
   }
 
-  Widget _build(BuildContext context) {
+  Widget _build(BuildContext context) => _EditDialog(_card, _minValue, _maxValue);
+}
+
+class _EditDialog extends StatefulWidget {
+  final AgileCard _card;
+  final int _maxValue;
+  final int _minValue;
+
+  _EditDialog(this._card, this._minValue, this._maxValue);
+
+  @override
+  State<StatefulWidget> createState() => _EditDialogState(_card, _minValue, _maxValue);
+}
+
+class _EditDialogState extends State<_EditDialog> {
+  AgileCard _card;
+  final int _minValue, _maxValue;
+
+  _EditDialogState(this._card, this._minValue, this._maxValue);
+
+  @override
+  Widget build(BuildContext context) {
     return AlertDialog(
       title: Text('Adjust Value'),
       content: Center(
@@ -44,8 +65,8 @@ class CardEditDialogBuilder {
             _imagePreview(),
             Container(
               child: FlatButton(
-                  onPressed: _addImageToCard,
-                  child: Text('Choose Image')
+                onPressed: _addImageToCard,
+                child: Text('Choose Image')
               ),
               padding: EdgeInsets.only(bottom: 20),
             ),
@@ -58,10 +79,10 @@ class CardEditDialogBuilder {
           onPressed: Navigator.of(context).pop,
         ),
         FlatButton(
-          child: Text('Delete', style: TextStyle(color: Colors.redAccent),),
-          onPressed: () {
-            _showDeleteDialog(context);
-          }
+            child: Text('Delete', style: TextStyle(color: Colors.redAccent),),
+            onPressed: () {
+              _showDeleteDialog(context);
+            }
         ),
         FlatButton(
           child: Text('Ok'),
@@ -89,9 +110,10 @@ class CardEditDialogBuilder {
     ).present(context);
   }
 
-  void _addImageToCard() async {
+  Future _addImageToCard() async {
     final image = await ImagePicker.pickImage(source: ImageSource.gallery);
     final savedImage = await ImageStorage().saveImage(image);
     _card = AgileCard.asNew(id: _card.id, number: _card.number, image: savedImage);
+    setState(() {});
   }
 }

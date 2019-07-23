@@ -44,8 +44,13 @@ class _EditDialog extends StatefulWidget {
 class _EditDialogState extends State<_EditDialog> {
   AgileCard _card;
   final int _minValue, _maxValue;
+  File _previewImage;
 
-  _EditDialogState(this._card, this._minValue, this._maxValue);
+  _EditDialogState(this._card, this._minValue, this._maxValue) {
+    _previewImage  = _card.image.isNotEmpty
+      ? File(_card.image)
+      : null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,10 +67,14 @@ class _EditDialogState extends State<_EditDialog> {
                 (val) { _card = AgileCard.asNew(id: _card.id, number: val, image: _card.image); }
               )
             ),
-            _imagePreview(),
+            Container(
+              child: _previewImage != null
+                ? Image.file(_previewImage)
+                : null
+            ),
             Container(
               child: FlatButton(
-                onPressed: _addImageToCard,
+                onPressed: _addImageToCardPreview,
                 child: Text('Choose Image')
               ),
               padding: EdgeInsets.only(bottom: 20),
@@ -79,28 +88,22 @@ class _EditDialogState extends State<_EditDialog> {
           onPressed: Navigator.of(context).pop,
         ),
         FlatButton(
-            child: Text('Delete', style: TextStyle(color: Colors.redAccent),),
-            onPressed: () {
-              _showDeleteDialog(context);
-            }
+          child: Text('Delete', style: TextStyle(color: Colors.redAccent),),
+          onPressed: () {
+            _showDeleteDialog(context);
+          }
         ),
         FlatButton(
           child: Text('Ok'),
           onPressed: () async {
+            final savedImage = await ImageStorage().saveImage(_previewImage);
+            _card = AgileCard.asNew(id: _card.id, number: _card.number, image: savedImage);
             await DeckRoot.of(context).updateCard(_card);
             Navigator.of(context).pop();
           },
         )
       ],
     ).build(context);
-  }
-
-  Widget _imagePreview() {
-    return Container(
-      child: _card.image.isNotEmpty
-        ? Image.file(File(_card.image))
-        : null
-    );
   }
 
   void _showDeleteDialog(BuildContext context) {
@@ -110,10 +113,9 @@ class _EditDialogState extends State<_EditDialog> {
     ).present(context);
   }
 
-  Future _addImageToCard() async {
-    final image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    final savedImage = await ImageStorage().saveImage(image);
-    _card = AgileCard.asNew(id: _card.id, number: _card.number, image: savedImage);
+  Future _addImageToCardPreview() async {
+    _previewImage = await ImagePicker.pickImage(source: ImageSource.gallery) ?? _previewImage;
+    _card = AgileCard.asNew(id: _card.id, number: _card.number, image: _previewImage?.path ?? '');
     setState(() {});
   }
 }

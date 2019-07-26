@@ -26,16 +26,22 @@ class ValueSliderViewState extends State<ValueSliderView> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(AgileCard.asNew(id: 0, number: _value).symbol),
-        Slider(
-          value: _value.roundToDouble(),
-          onChanged: (val) {
-            _value = val.round();
-            _onChanged(_value);
-            setState(() { });
-          },
-          max: _max.toDouble(),
-          min: _min.toDouble(),
+        Text(
+          AgileCard.asNew(id: 0, number: _value).symbol,
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
+        ),
+        Container(
+          child: Slider(
+            value: _value.roundToDouble(),
+            onChanged: (val) {
+              _value = val.round();
+              _onChanged(_value);
+              setState(() { });
+            },
+            max: _max.toDouble(),
+            min: _min.toDouble(),
+          ),
+          padding: EdgeInsets.only(top: 10, bottom: 20),
         )
       ],
     );

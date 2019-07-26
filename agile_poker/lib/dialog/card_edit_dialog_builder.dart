@@ -56,7 +56,7 @@ class _EditDialogState extends State<_EditDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text('Adjust Value'),
-      content: Center(
+      content: IntrinsicHeight(
         child: Column(
           children: <Widget>[
             SingleChildScrollView(
@@ -67,19 +67,29 @@ class _EditDialogState extends State<_EditDialog> {
                 (val) { _card = AgileCard.asNew(id: _card.id, number: val, image: _card.image); }
               )
             ),
+
+            Expanded(child:
             Container(
-              child: _previewImage != null
-                ? Image.file(_previewImage)
-                : null
+              child: Container(
+                child: _previewImage != null
+                  ? Image.file(_previewImage)
+                  : null,
+                decoration: _previewImage != null
+                  ? BoxDecoration(border: Border.all(width: 2, color: Colors.black26))
+                  : null,
+              ),
+              padding: EdgeInsets.all(5),
+            ),
             ),
             Container(
               child: FlatButton(
                 onPressed: _addImageToCardPreview,
-                child: Text('Choose Image')
+                child: Text('Choose Image'),
+                textColor: Colors.redAccent
+                ,
               ),
-              padding: EdgeInsets.only(bottom: 20),
             ),
-          ]
+          ],
         ),
       ),
       actions: <Widget>[

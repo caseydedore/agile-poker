@@ -120,6 +120,7 @@ class _EditDialogState extends State<_EditDialog> {
     final deckInterface = DeckRoot.of(context);
     CardDeleteDialogBuilder.create(
       card: deckInterface.currentCard,
+      onDelete: Navigator.of(context).pop
     ).present(context);
   }
 

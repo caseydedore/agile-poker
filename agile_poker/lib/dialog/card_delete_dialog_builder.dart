@@ -5,11 +5,12 @@ import '../service/image_storage.dart';
 
 class CardDeleteDialogBuilder {
   final AgileCard _card;
+  final Function _onDelete;
 
-  CardDeleteDialogBuilder(this._card);
+  CardDeleteDialogBuilder(this._card, this._onDelete);
 
-  factory CardDeleteDialogBuilder.create({@required AgileCard card}) =>
-      CardDeleteDialogBuilder(card);
+  factory CardDeleteDialogBuilder.create({@required AgileCard card, Function onDelete}) =>
+      CardDeleteDialogBuilder(card, onDelete ?? {});
 
   void present(BuildContext context) async {
     await showDialog(
@@ -37,6 +38,7 @@ class CardDeleteDialogBuilder {
   void _deleteCard(BuildContext context) async {
     await ImageStorage().deleteImage(_card.image);
     await DeckRoot.of(context).removeCard(_card);
+    _onDelete();
     Navigator.of(context).pop();
   }
 }

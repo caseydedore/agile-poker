@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'agile_card_view.dart';
 import 'data/model/agile_card.dart';
-import 'deck_root.dart';
+import 'package:agile_poker/service/deck_provider.dart';
 
 class DeckView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final deckState = DeckRoot.of(context);
+    final deckState = Provider.of<DeckProvider>(context);
     final cards = deckState.cards;
     return Column(
       children: [

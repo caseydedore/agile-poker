@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:agile_poker/service/deck_provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'deck_view.dart';
 import 'deck_root.dart';
@@ -38,7 +40,7 @@ class DeckMainView extends StatelessWidget {
       icon: Icon(Icons.sort),
       tooltip: 'Sort Deck',
       onSelected: (option) {
-        DeckRoot.of(context).sortCards(option);
+        Provider.of<DeckProvider>(context).sortCards(option);
       },
       itemBuilder: (context) => <PopupMenuEntry<CardSortMode>>[
         const PopupMenuItem(
@@ -66,16 +68,16 @@ class DeckMainView extends StatelessWidget {
       icon: Icon(Icons.add_box),
       tooltip: 'Create New Card',
       onPressed: () {
-        DeckRoot.of(context).addNewCard();
+        Provider.of<DeckProvider>(context).addNewCard();
       },
     );
 
   void _showEditDialog(BuildContext context) {
-    final deckInterface = DeckRoot.of(context);
+    final deckProvider = Provider.of<DeckProvider>(context);
     CardEditDialogBuilder.create(
-        card: deckInterface.currentCard,
-        minValue: 0,
-        maxValue: 101,
+      card: deckProvider.currentCard,
+      minValue: 0,
+      maxValue: 101,
     ).present(context);
   }
 }

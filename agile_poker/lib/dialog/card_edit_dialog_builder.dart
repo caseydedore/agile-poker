@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import '../deck_root.dart';
+import 'package:provider/provider.dart';
+import 'package:agile_poker/service/deck_provider.dart';
+import 'package:agile_poker/service/current_card_provider.dart';
 import '../data/model/agile_card.dart';
 import 'value_slider_view.dart';
 import 'card_delete_dialog_builder.dart';
@@ -108,7 +110,7 @@ class _EditDialogState extends State<_EditDialog> {
           onPressed: () async {
             final savedImage = await ImageStorage().saveImage(_previewImage);
             _card = AgileCard.asNew(id: _card.id, number: _card.number, image: savedImage);
-            await DeckRoot.of(context).updateCard(_card);
+            await Provider.of<DeckProvider>(context).updateCard(_card);
             Navigator.of(context).pop();
           },
         )
@@ -117,7 +119,7 @@ class _EditDialogState extends State<_EditDialog> {
   }
 
   void _showDeleteDialog(BuildContext context) {
-    final deckInterface = DeckRoot.of(context);
+    final deckInterface = Provider.of<CurrentCardProvider>(context);
     CardDeleteDialogBuilder.create(
       card: deckInterface.currentCard,
       onDelete: Navigator.of(context).pop

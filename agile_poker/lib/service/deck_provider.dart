@@ -17,8 +17,24 @@ class DeckProvider with ChangeNotifier {
     return _cards;
   }
 
-  set(List<AgileCard> newCards) {
-    _cards = newCards;
+  Future addNewCard() async {
+    final card = AgileCard.asNew();
+    final newCard = await _data.addAgileCard(card);
+    _cards.add(newCard);
+    notifyListeners();
+  }
+
+  Future removeCard(AgileCard card) async {
+    await _data.removeAgileCard(card);
+    _cards.remove(card);
+    notifyListeners();
+  }
+
+  Future updateCard(AgileCard card) async {
+    await _data.updateAgileCard(card);
+    final indexOfOriginal = _cards.indexWhere((old) => old.id == card.id);
+    _cards.removeAt(indexOfOriginal);
+    _cards.insert(indexOfOriginal, card);
     notifyListeners();
   }
 

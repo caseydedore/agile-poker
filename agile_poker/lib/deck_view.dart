@@ -3,18 +3,15 @@ import 'package:provider/provider.dart';
 import 'agile_card_view.dart';
 import 'data/model/agile_card.dart';
 import 'package:agile_poker/service/deck_provider.dart';
+import 'package:agile_poker/service/current_card_provider.dart';
 
 class DeckView extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    final deckState = Provider.of<DeckProvider>(context);
-    final cards = deckState.cards;
-    return Column(
-      children: [
-        Expanded(child: _buildInteractiveDeck(deckState: deckState, cards: cards))
-      ]
-    );
-  }
+  Widget build(BuildContext context) => Column(
+    children: [
+      Expanded(child: _buildInteractiveDeck(context))
+    ]
+  );
 
   static Widget _getViewForExistingCard(AgileCard card) {
     final view = AgileCardView.as(card);
@@ -27,7 +24,12 @@ class DeckView extends StatelessWidget {
     );
   }
 
-  Widget _buildInteractiveDeck({DeckRootState deckState, List<AgileCard> cards}) {
+  Widget _buildInteractiveDeck(BuildContext context) {
+    final deckProvider = Provider.of<DeckProvider>(context);
+    final cards = deckProvider.get();
+    //todo get cards async
+    final currentCardProvider = Provider.of<CurrentCardProvider>(context);
+    //todo get cards async from provider
     final cardViews = cards.map((card) => _getViewForExistingCard(card)).toList();
     final cardList = PageView(
       scrollDirection: Axis.horizontal,
@@ -55,7 +57,7 @@ class DeckView extends StatelessWidget {
             _scrollToPage(controller: cardList.controller, page: closestPage)
               .then((result) {
                 isScrollingToRest = false;
-                deckState.currentCard = cards[closestPage];
+                currentCardProvider.currentCard = cards[closestPage];
             });
           }
         },

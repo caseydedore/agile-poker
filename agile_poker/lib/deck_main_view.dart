@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:agile_poker/service/deck_provider.dart';
+import 'package:agile_poker/service/current_card_provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'deck_view.dart';
-import 'deck_root.dart';
 import 'dialog/card_edit_dialog_builder.dart';
 
 class DeckMainView extends StatelessWidget {
@@ -73,9 +73,9 @@ class DeckMainView extends StatelessWidget {
     );
 
   void _showEditDialog(BuildContext context) {
-    final deckProvider = Provider.of<DeckProvider>(context);
+    final cardProvider = Provider.of<CurrentCardProvider>(context);
     CardEditDialogBuilder.create(
-      card: deckProvider.currentCard,
+      card: cardProvider.currentCard,
       minValue: 0,
       maxValue: 101,
     ).present(context);

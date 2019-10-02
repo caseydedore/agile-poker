@@ -4,7 +4,7 @@ import 'deck_main_view.dart';
 import 'package:agile_poker/service/deck_provider.dart';
 import 'package:agile_poker/service/current_card_provider.dart';
 
-class DeckRoot extends StatelessWidget {
+class DeckApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final app = DeckMainView();
@@ -16,6 +16,8 @@ class DeckRoot extends StatelessWidget {
       builder: (_) => CurrentCardProvider(),
       child: cardDataProvider
     );
-    return currentCardProvider;
+    return MaterialApp(
+      home: currentCardProvider,
+    );
   }
 }

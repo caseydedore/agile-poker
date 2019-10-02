@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'agile_card_view.dart';
 import 'data/model/agile_card.dart';
-import 'package:agile_poker/service/deck_provider.dart';
 import 'package:agile_poker/service/current_card_provider.dart';
 
 class DeckView extends StatelessWidget {
+  final List<AgileCard> cards;
+
+  DeckView({@required this.cards});
+
   @override
   Widget build(BuildContext context) => Column(
     children: [
@@ -25,11 +28,7 @@ class DeckView extends StatelessWidget {
   }
 
   Widget _buildInteractiveDeck(BuildContext context) {
-    final deckProvider = Provider.of<DeckProvider>(context);
-    final cards = deckProvider.get();
-    //todo get cards async
     final currentCardProvider = Provider.of<CurrentCardProvider>(context);
-    //todo get cards async from provider
     final cardViews = cards.map((card) => _getViewForExistingCard(card)).toList();
     final cardList = PageView(
       scrollDirection: Axis.horizontal,

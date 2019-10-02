@@ -5,13 +5,18 @@ import 'package:agile_poker/service/current_card_provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'deck_view.dart';
 import 'dialog/card_edit_dialog_builder.dart';
+import 'package:agile_poker/loading_view.dart';
+import 'package:agile_poker/data/model/agile_card.dart';
 
 class DeckMainView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBar(context),
-      body: DeckView(),
+      body: LoadingView<List<AgileCard>>(
+        viewBuilder: (List<AgileCard> cards) => DeckView(cards: cards),
+        loadingOperation: Provider.of<DeckProvider>(context).get()
+      )
     );
   }
 

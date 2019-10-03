@@ -10,7 +10,7 @@ class LoadingView<T> extends StatefulWidget {
   State<StatefulWidget> createState() => _LoadingViewState<T>();
 }
 
-class _LoadingViewState<T> extends State<LoadingView> {
+class _LoadingViewState<T> extends State<LoadingView<T>> {
   T _value;
 
   @override
@@ -28,3 +28,4 @@ class _LoadingViewState<T> extends State<LoadingView> {
 }
 
 typedef LoadingViewWidgetBuilder<T> = Widget Function(T value);
+//typedef Widget LoadingViewWidgetBuilder<T>(T value);

@@ -14,7 +14,7 @@ class DeckMainView extends StatelessWidget {
     return Scaffold(
       appBar: _appBar(context),
       body: LoadingView<List<AgileCard>>(
-        viewBuilder: (List<AgileCard> cards) => DeckView(cards: cards),
+        viewBuilder: (cards) => DeckView(cards: cards),
         loadingOperation: Provider.of<DeckProvider>(context).get()
       )
     );

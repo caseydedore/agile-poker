@@ -23,13 +23,15 @@ class CardEditDialogBuilder {
   }) => CardEditDialogBuilder._(card, minValue, maxValue);
   
   void present(BuildContext context) async {
+    final injectedProvider = Provider.of<DeckProvider>(context, listen: false);
     await showDialog(
       context: context,
-      builder: _build
+      builder: (context) => Provider.value(
+        value: injectedProvider,
+        child: _EditDialog(_card, _minValue, _maxValue),
+      )
     );
   }
-
-  Widget _build(BuildContext context) => _EditDialog(_card, _minValue, _maxValue);
 }
 
 class _EditDialog extends StatefulWidget {
@@ -71,24 +73,23 @@ class _EditDialogState extends State<_EditDialog> {
             ),
 
             Expanded(child:
-            Container(
-              child: Container(
-                child: _previewImage != null
-                  ? Image.file(_previewImage)
-                  : null,
-                decoration: _previewImage != null
-                  ? BoxDecoration(border: Border.all(width: 2, color: Colors.black26))
-                  : null,
+              Container(
+                child: Container(
+                  child: _previewImage != null
+                    ? Image.file(_previewImage)
+                    : null,
+                  decoration: _previewImage != null
+                    ? BoxDecoration(border: Border.all(width: 2, color: Colors.black26))
+                    : null,
+                ),
+                padding: EdgeInsets.all(5),
               ),
-              padding: EdgeInsets.all(5),
-            ),
             ),
             Container(
               child: FlatButton(
                 onPressed: _addImageToCardPreview,
                 child: Text('Choose Image'),
-                textColor: Colors.redAccent
-                ,
+                textColor: Colors.redAccent,
               ),
             ),
           ],
